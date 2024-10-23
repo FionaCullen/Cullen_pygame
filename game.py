@@ -18,6 +18,7 @@ background.fill((255,0,0))
 # load tile images to variables
 sky = pygame.image.load('PNG/background.png')     
 grass = pygame.image.load('PNG/groundGrass.png')
+
 # get to the tile_size
 TILE_SIZE = sky.get_width()
 
