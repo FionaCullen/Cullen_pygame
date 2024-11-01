@@ -1,6 +1,7 @@
 # Example file showing a basic pygame "game loop"
 import pygame
 import math 
+from plane import Plane
 
 # pygame setup
 pygame.init()
@@ -25,6 +26,9 @@ TILE_SIZE = sky.get_width()
 background.blit(sky, (0,0))
 grass_y = HEIGHT-grass.get_height()
 background.blit(grass, (0,grass_y))
+
+# Create Player 
+player1 = Plane(88,73)
 
 while running:
     # poll for events
