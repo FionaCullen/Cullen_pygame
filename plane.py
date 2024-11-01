@@ -7,7 +7,8 @@ class Plane():
         self.y = y
         self.speed = 0
         self.theta = theta # degrees
-        self.image = pygame.image.load('PNG\Plane\planeRed2.png')
+        self.image = pygame.image.load('Cullen_pygame/PNG/Plane/planeRed2.png')
+        self.rect = self.image.get_rect()
 
     def deg_to_rad(self, deg):
         # converts deg to rad
@@ -24,8 +25,13 @@ class Plane():
         self.x += x_dot
         self.y -= y_dot
 
+
     
     def draw(self, screen):
         # rotate our image
         new_image = pygame.transform.rotozoom(self.image, self.theta, 1)
-        screen.blit(new_image, (self.x,self.y))
+        # update the rectangle 
+        self.rect = new_image.get_rect()
+
+        self.rect.center = (self.x, self.y)
+        screen.blit(new_image, self.rect)

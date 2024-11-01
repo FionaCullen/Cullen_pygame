@@ -2,6 +2,7 @@
 import pygame
 import math 
 from plane import Plane
+import random
 
 # pygame setup
 pygame.init()
@@ -17,18 +18,22 @@ background = pygame.Surface((WIDTH,HEIGHT))
 background.fill((255,0,0))
 
 # load tile images to variables
-sky = pygame.image.load('PNG/background.png')     
-grass = pygame.image.load('PNG/groundGrass.png')
+sky = pygame.image.load('Cullen_pygame/PNG/background.png')     
+grass = pygame.image.load('Cullen_pygame/PNG/groundGrass.png')
+rock_grass = pygame.image.load('Cullen_pygame/PNG/rockGrass.png')
+down_rock_grass = pygame.image.load('Cullen_pygame/PNG/rockGrassDown.png')
 
 # get to the tile_size
 TILE_SIZE = sky.get_width()
-
 background.blit(sky, (0,0))
 grass_y = HEIGHT-grass.get_height()
 background.blit(grass, (0,grass_y))
 
-# Create Player 
-player1 = Plane(88,73)
+# Add rocks
+rock_width = rock_grass.get_width()
+rock_height = rock_grass.get_height()
+
+
 
 while running:
     # poll for events
