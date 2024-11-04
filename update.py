@@ -45,8 +45,24 @@ for _ in range(5):  # Create 10 rocks
     rock_y = HEIGHT - rock_height  # Position at the bottom
     rocks.append((rock_grass_scaled, rock_x, rock_y))
 
-
+# Add top rocks 
+down_max_height = 250
+down_rocks = []
+def create_rock():
+    down_rock_width = random.randint(50, 150)  # Random width between 50 and 150
+    down_rock_height = random.randint(10, down_max_height)  # Random height between 10 and max_height
+    
+    # Scale the rock image to random width and height
+    down_rock_grass_scaled = pygame.transform.scale(down_rock_grass,(down_rock_width, down_rock_height))
+    down_rock_x = random.randint(0, WIDTH - down_rock_width)  # Random x position
+    down_rock_y = 0  # Set y position to 0 for the top of the screen
+    speed = random.uniform(1, 3)  # Random horizontal speed
+    direction = random.choice([-1, 1])  # Random direction: left or right
+    return (down_rock_grass_scaled, down_rock_x, down_rock_y, speed, direction)
      
+for _ in range(5):  # Create 5 rocks initially
+    down_rocks.append(create_rock())
+
 def scroll_background(speed): 
     global background_x
     background_x -= speed 
