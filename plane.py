@@ -1,37 +1,20 @@
 from math import cos, sin, pi
 import pygame
 
-class Plane():
-    def __init__(self, x, y, theta=270, color='red'):
-        self.x = x
-        self.y = y
-        self.speed = 0
-        self.theta = theta # degrees
-        self.image = pygame.image.load('Cullen_pygame/PNG/Plane/planeRed2.png')
-        self.rect = self.image.get_rect()
+plane = pygame.image.load('Cullen_pygame/PNG/plane.png')
+plane_width = plane.get_width()
+plane_height = plane.get_height()
 
-    def deg_to_rad(self, deg):
-        # converts deg to rad
-        rad = (deg/180) * pi
-        return rad
+plane_x = WIDTH // 4
+plane_y = HEIGHT // 2
+plane_speed = 5 
 
-    def update(self):
-        # moves our ship at each frame
-        # get x and y components of speed
-        theta_rad = self.deg_to_rad(self.theta)
-        x_dot = cos(theta_rad) * self.speed
-        y_dot = sin(theta_rad) * self.speed
+keys = pygame.key.get_pressed()
+if keys[pygame.K_SPACE]:
+    plane_y -= plane_speed
+else: 
+    plane_y += plane_speed 
 
-        self.x += x_dot
-        self.y -= y_dot
+plane_y = max(0, min(HEIGHT - plane_height, plane_y))
 
-
-    
-    def draw(self, screen):
-        # rotate our image
-        new_image = pygame.transform.rotozoom(self.image, self.theta, 1)
-        # update the rectangle 
-        self.rect = new_image.get_rect()
-
-        self.rect.center = (self.x, self.y)
-        screen.blit(new_image, self.rect)
+screen.blit(plane, (plane_x, plane_y))
