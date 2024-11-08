@@ -92,17 +92,17 @@ def scroll_background(speed):
     if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
         background_x = 0  # This is the reset so that the screen looks like it never ends.
 
+# keys 
 while running:
-    # Poll for events
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT: 
             running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                plane_moving_up = True  # Toggle upward movement when spacebar is pressed
-        elif event.type == pygame.KEYUP:
-            if event.key == pygame.K_SPACE:
-                plane_moving_up = False  # Stop moving up when spacebar is released
+        elif event.type == pygame.KEYDOWN: # checks if key is pressed 
+            if event.key == pygame.K_SPACE: # if yes, upward movement 
+                plane_moving_up = True  
+        elif event.type == pygame.KEYUP: # checks if key is released 
+            if event.key == pygame.K_SPACE: # if yes, no upward movement 
+                plane_moving_up = False 
 
     # Scroll the background
     scroll_background(2) # Speed is 2
@@ -112,53 +112,60 @@ while running:
     screen.blit(background, (background_x + WIDTH, 0))
 
     # Update the timer for rock creation
-    rock_creation_time += clock.get_time()
-
+    rock_creation_time += clock.get_time() # rock_creation_time keeps track how much time has passed since the rock was created and clock keeps track of the time that two frames have been created
+        # (Controlling the time when new rocks appear)
     # Create new rocks based on the timer
-    if rock_creation_time >= rock_creation_interval:
-        if random.random() < 0.3:  # Chance to create a new top rock
-            top_rock = try_create_top_rock(top_rocks)
-            top_rocks.append(top_rock)
-        if random.random() < 0.3:  # Chance to create a new bottom rock
-            bottom_rock = try_create_bottom_rock(bottom_rocks)
-            bottom_rocks.append(bottom_rock)
-        rock_creation_time = 0  # Reset the timer
+
+    if rock_creation_time >= rock_creation_interval: # If it is greater or equal to it is time to create a new rock
+        if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+            # (Changing this changes the speed at which rocks appear on the screen)
+            top_rock = try_create_top_rock(top_rocks) # Upside down rock is created 
+            top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
+        if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+            # (Changing this changes the speed at which rocks appear on the screen)
+            bottom_rock = try_create_bottom_rock(bottom_rocks) # Bottom screen rocks are created
+            bottom_rocks.append(bottom_rock) # Added to the list, which keeps track of all rocks in the game
+        rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
 
     # Move rocks off the screen
-    new_top_rocks = []
+    new_top_rocks = [] # initializing
     for rock in top_rocks: 
-        rock_grass_scaled, rock_x, rock_y = rock
+        rock_grass_scaled, rock_x, rock_y = rock # has rocks x position, y position, and the image
         rock_x -= 2  # Move the rock to the left along with the screen (At the same rate of 2)
-        if rock_x + rock_grass_scaled.get_width() > 0:  # Keep rocks within the screen
-            new_top_rocks.append((rock_grass_scaled, rock_x, rock_y))
+        if rock_x + rock_grass_scaled.get_width() > 0:  # Adding these two things together you get the right most edge of the rock
+            # if it is greater than zero that means it is still visible on the screen, if it is less than zero it means it left the screen
+            new_top_rocks.append((rock_grass_scaled, rock_x, rock_y)) # If it is still visible on the screen it will add it to the list and update its position
 
-    top_rocks = new_top_rocks 
+    top_rocks = new_top_rocks # top rocks is being replaced with the contents of new top rocks
 
-    new_bottom_rocks = []
+    new_bottom_rocks = [] # initializing 
     for rock in bottom_rocks:
-        rock_grass_scaled, rock_x, rock_y = rock
-        rock_x -= 2  # Move the rock to the left along with the screen
-        if rock_x + rock_grass_scaled.get_width() > 0:  # Keep rocks within the screen
-            new_bottom_rocks.append((rock_grass_scaled, rock_x, rock_y))
+        rock_grass_scaled, rock_x, rock_y = rock # has rocks x position, y position, and the image
+        rock_x -= 2  # Move the rock to the left along with the screen (At the same rate of 2)
+        if rock_x + rock_grass_scaled.get_width() > 0:  # Adding these two things together you get the right most edge of the rock 
+            # if it is greater than zero that means it is still visible on the screen, if it is less than zero it means it left the screen 
+            new_bottom_rocks.append((rock_grass_scaled, rock_x, rock_y)) # If it is still visible on the screen it will add it to the list and update its position
 
-    bottom_rocks = new_bottom_rocks
+    bottom_rocks = new_bottom_rocks # bottom rock is being replaced with the contents of new bottom rocks 
 
-    # Handle plane vertical movement
+    # Plane's vertical movement
     if plane_moving_up:  # Only move up if the spacebar is pressed
-        plane_y -= plane_speed
+        plane_y -= plane_speed # TRUE Space bar was pressed so the plane moves up 
     else:
-        plane_y += plane_speed  # Otherwise, move it down
+        plane_y += plane_speed  # FALSE Space bar was not pressed so the plane moves down 
 
-    # Prevent plane from going out of bounds vertically
-    plane_y = max(0, min(HEIGHT - max_height, plane_y))  # Stay within screen bounds
+    # Bounds for plane
+    plane_y = max(0, min(HEIGHT - max_height, plane_y))  # Stay within screen bounds (0 = topmost part of screen)
 
-    # Draw top rocks (stationary relative to the background)
-    for rock in top_rocks:
-        screen.blit(rock[0], (rock[1], rock[2]))  # Draw each top rock
-
-    # Draw bottom rocks (stationary relative to the background)
-    for rock in bottom_rocks:
-        screen.blit(rock[0], (rock[1], rock[2])) 
+    # Draw top rocks
+    for rock in top_rocks: # Goes over every rock in top_rocks
+        screen.blit(rock[0], (rock[1], rock[2]))  # Accessing the first rock in the list, then all the other rocks 
+                            # rock[1] represents the x coordinate/ horizontal and rock[2] represents the y coordinate/ vertical (POSITION)
+    
+    # Draw bottom rocks
+    for rock in bottom_rocks: # Goes over every rock in bottom_rocks
+        screen.blit(rock[0], (rock[1], rock[2]))  # Accessing the first rock in the list, then all the other rocks 
+                            # rock[1] represents the x coordinate/ horizontal and rock[2] represents the y coordinate/ vertical (POSITION)
 
     # Draw the plane
     screen.blit(plane, (plane_x, plane_y))  # Draw the plane at the current position
