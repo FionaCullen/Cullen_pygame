@@ -27,7 +27,7 @@ plane = pygame.transform.scale(plane, (plane.get_width() // 2, plane.get_height(
 
 # Plane initial position (center of the screen horizontally, starting in the middle vertically)
 plane_x = WIDTH // 4  # Horizontal position
-plane_y = HEIGHT // 2  # Vertical position
+plane_y =  HEIGHT // 2 # Vertical position
 plane_speed = 3  # Speed of vertical movement
 plane_moving_up = False  # Plane is set to not move up, this allows the plane to not continue moving up if the space bar is not touched
 
@@ -64,7 +64,7 @@ def rocks_overlap(new_rock, existing_rocks): # Checking if any new rocks over la
     new_rect = pygame.Rect(new_x, new_y, new_image.get_width(), new_image.get_height()) # gives x and y position, width and height of the image 
 
     for rock in existing_rocks: # For loop goes over every rock that is already exisiting
-        existing_image, existing_x, existing_y = rock # A tuple that includes, the x and y position of the existing rock and the image. 
+        existing_image, existing_x, existing_y = rock # x and y position of the existing rock and the image. 
         existing_rect = pygame.Rect(existing_x, existing_y, existing_image.get_width(), existing_image.get_height()) # Creating a Rect for the existing rock, which gives the x and y position and width and height of the image
         
         if new_rect.colliderect(existing_rect): # Checking to see if a new rock overlaps with an exisiting rock
@@ -76,7 +76,7 @@ def try_create_bottom_rock(existing_rocks): # Creates a new bottom rock, and mak
     while True: # We need a while loop because we need to find a rock that does not overlap another rock, so it will continue until it is found.
         new_rock = create_bottom_rock() # Calls the function and assigns it to new_rock (which includes x and y position)
         if not rocks_overlap(new_rock, existing_rocks): # This checks if any new rocks over lap with any existing rocks 
-            # if there is no overlap, then it will return false, and the not will then turn it true, returning a new rock
+            # if there is no overlap, then it will return false, and then it will then turn it true, returning a new rock
             return new_rock  # Return the new rock if no overlap
 
 def try_create_top_rock(existing_rocks): # Creates a new top rock, and makes sure that the new rock does not overlap an exisiting rock
@@ -114,9 +114,9 @@ while running:
     # Update the timer for rock creation
     rock_creation_time += clock.get_time() # rock_creation_time keeps track how much time has passed since the rock was created and clock keeps track of the time that two frames have been created
         # (Controlling the time when new rocks appear)
-    # Create new rocks based on the timer
 
-    if rock_creation_time >= rock_creation_interval: # If it is greater or equal to it is time to create a new rock
+    # Create new rocks
+    if rock_creation_time >= rock_creation_interval: # If it is greater or equal to- it is time to create a new rock
         if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
             # (Changing this changes the speed at which rocks appear on the screen)
             top_rock = try_create_top_rock(top_rocks) # Upside down rock is created 
@@ -155,18 +155,19 @@ while running:
         plane_y += plane_speed  # FALSE Space bar was not pressed so the plane moves down 
 
     # Bounds for plane
-    plane_y = max(0, min(HEIGHT - max_height, plane_y))  # Stay within screen bounds (0 = topmost part of screen)
+    if plane_y < 0: # Does not go above the screen 
+        plane_y = 0 
+    elif plane_y > HEIGHT: 
+        plane_y = HEIGHT  
 
     # Draw top rocks
-    for rock in top_rocks: # Goes over every rock in top_rocks
-        screen.blit(rock[0], (rock[1], rock[2]))  # Accessing the first rock in the list, then all the other rocks 
-                            # rock[1] represents the x coordinate/ horizontal and rock[2] represents the y coordinate/ vertical (POSITION)
-    
+    for rock_image, rock_x, rock_y in top_rocks: # Goes over every rock in top_rocks
+        screen.blit(rock_image, (rock_x, rock_y))  # Accessing the first rock in the list, then all the other rocks using x and y positions
+                            
     # Draw bottom rocks
-    for rock in bottom_rocks: # Goes over every rock in bottom_rocks
-        screen.blit(rock[0], (rock[1], rock[2]))  # Accessing the first rock in the list, then all the other rocks 
-                            # rock[1] represents the x coordinate/ horizontal and rock[2] represents the y coordinate/ vertical (POSITION)
-
+    for rock_image, rock_x,rock_y in bottom_rocks: # Goes over every rock in bottom_rocks
+        screen.blit(rock_image, (rock_x, rock_y))  # Accessing the first rock in the list, then all the other rocks using x and y positions
+                            
     # Draw the plane
     screen.blit(plane, (plane_x, plane_y))  # Draw the plane at the current position
 
@@ -176,5 +177,4 @@ while running:
     clock.tick(60)  
 
 pygame.quit()
-
 
