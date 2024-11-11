@@ -30,6 +30,7 @@ plane_x = WIDTH // 4  # Horizontal position
 plane_y =  HEIGHT // 2 # Vertical position
 plane_speed = 3  # Speed of vertical movement
 plane_moving_up = False  # Plane is set to not move up, this allows the plane to not continue moving up if the space bar is not touched
+plane_height = 36 # Got this number by testing to see when the plane would hit the ground, where I wanted it to
 
 # Get tile size
 TILE_SIZE = sky.get_width()
@@ -157,8 +158,8 @@ while running:
     # Bounds for plane
     if plane_y < 0: # Does not go above the screen 
         plane_y = 0 
-    elif plane_y > HEIGHT: 
-        plane_y = HEIGHT  
+    elif plane_y + plane_height > HEIGHT: # Checking if bottom of the plane has left the bottom of the screen
+        plane_y = HEIGHT - plane_height # Sets the plan so it stops before the bottom of the screen
 
     # Draw top rocks
     for rock_image, rock_x, rock_y in top_rocks: # Goes over every rock in top_rocks
