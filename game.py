@@ -40,7 +40,7 @@ background.blit(grass, (0, grass_y))
 
 rock_creation_time = 0 # Keeping track of how much time has passed since the last rock was created (This is to ensure that no rocks get created over top one another)
 rock_creation_interval = 650  # Interval for rock creation (A rock will be created every 0.65 seconds)
-max_height = 260  # Max height for rocks
+max_height = 260 # Max height for rocks
 top_rocks = []     # Upside-down rocks at the top (Initalizing)
 bottom_rocks = []  # Regular rocks at the bottom (Initalizing)
 
