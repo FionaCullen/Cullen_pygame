@@ -30,9 +30,9 @@ plane_y =  HEIGHT // 2 # Vertical position
 plane_speed = 3  # Speed of vertical movement
 plane_moving_up = False  # Plane is set to not move up, this allows the plane to not continue moving up if the space bar is not touched
 plane_height = 36 # Got this number by testing to see when the plane would hit the ground, where I wanted it to
-height = 73
-width = 88
-plane_rect = pygame.Rect(plane_x, plane_y, width, height)
+height = 73 # height of plane png
+width = 88 # width of plane png
+plane_rect = pygame.Rect(plane_x, plane_y, width, height) # Used for crash
 
 # Get tile size
 TILE_SIZE = sky.get_width()
@@ -112,13 +112,13 @@ while running:
     scroll_background(2) # Speed is 2
 
     # Crash
-    r,g,b,_= screen.get_at(plane_rect.center)
+    r,g,b,_= screen.get_at(plane_rect.center) # Setting where the pixel colors are 
     print(r,g,b,_)
 
-    #if r in range() and g in range() and b in range(): 
-        #pass
-    #else: 
-        #plane.kill()
+    if r in range(230,240) and g in range(240,250) and b in range(245,255): 
+        pass
+    else: 
+        plane.explode()
 
 
     # Fill the screen with background
