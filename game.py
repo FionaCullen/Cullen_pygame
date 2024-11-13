@@ -1,4 +1,3 @@
-# Example file showing a basic pygame "game loop"
 import pygame
 import random
 
@@ -93,7 +92,7 @@ def scroll_background(speed):
     if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
         background_x = 0  # This is the reset so that the screen looks like it never ends.
 
-# keys 
+# keys
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
@@ -106,7 +105,7 @@ while running:
                 plane_moving_up = False 
 
     # Scroll the background
-    scroll_background(2) # Speed is 2
+        scroll_background(2) # Speed is 2
 
     # Fill the screen with background
     screen.blit(background, (background_x, 0))
@@ -122,11 +121,11 @@ while running:
             # (Changing this changes the speed at which rocks appear on the screen)
             top_rock = try_create_top_rock(top_rocks) # Upside down rock is created 
             top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
-        if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+    if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
             # (Changing this changes the speed at which rocks appear on the screen)
             bottom_rock = try_create_bottom_rock(bottom_rocks) # Bottom screen rocks are created
             bottom_rocks.append(bottom_rock) # Added to the list, which keeps track of all rocks in the game
-        rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
+    rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
 
     # Move rocks off the screen
     new_top_rocks = [] # initializing
