@@ -95,6 +95,8 @@ def scroll_background(speed):
     if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
         background_x = 0  # This is the reset so that the screen looks like it never ends.
 
+plane_alive = True # Setting this as true because I need it to die later (Not using sprites in my code)
+
 # keys
 while running:
     for event in pygame.event.get():
@@ -118,7 +120,8 @@ while running:
     if r in range(230,240) and g in range(240,250) and b in range(245,255): 
         pass
     else: 
-        plane.explode()
+        print('DEAD')
+        plane_alive = False # Since I am not using sprites I need to use this in order to have my plane crash and get removed
 
 
     # Fill the screen with background
