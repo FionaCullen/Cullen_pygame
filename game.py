@@ -1,6 +1,7 @@
 import pygame
 import random
 from rock import Rock
+from plane import Plane
 
 # Pygame setup
 pygame.init()
@@ -18,19 +19,9 @@ background.fill((255, 0, 0))
 # Load tile images
 sky = pygame.image.load('Cullen_pygame/PNG/background.png')
 grass = pygame.image.load('Cullen_pygame/PNG/groundGrass.png')
-rock_grass = pygame.image.load('Cullen_pygame/PNG/rockGrass.png')
-down_rock_grass = pygame.image.load('Cullen_pygame/PNG/rockGrassDown.png')
 
-# Load the plane image and scale it
-plane = pygame.image.load('Cullen_pygame/PNG/Planes/planeRed2.png')  # Replace with actual plane image
-plane = pygame.transform.scale(plane, (plane.get_width() // 2, plane.get_height() // 2)) # Scale plane to 50 percent
-
-# Plane initial position (center of the screen horizontally, starting in the middle vertically)
-plane_x = WIDTH // 4  # Horizontal position
-plane_y =  HEIGHT // 2 # Vertical position
-plane_speed = 3  # Speed of vertical movement
-plane_moving_up = False  # Plane is set to not move up, this allows the plane to not continue moving up if the space bar is not touched
-plane_height = 36 # Got this number by testing to see when the plane would hit the ground, where I wanted it to
+# Initalizing Plane 
+plane = Plane(WIDTH = 800, HEIGHT = 480, screen = screen)
 
 # Get tile size
 TILE_SIZE = sky.get_width()
@@ -49,6 +40,8 @@ def scroll_background(speed):
     if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
         background_x = 0  # This is the reset so that the screen looks like it never ends.
 
+plane_moving_up = False 
+
 # keys
 while running:
     for event in pygame.event.get():
@@ -62,7 +55,7 @@ while running:
                 plane_moving_up = False 
 
     # Scroll the background
-        scroll_background(2) # Speed is 2
+    scroll_background(2) # Speed is 2
 
     # Fill the screen with background
     screen.blit(background, (background_x, 0))
@@ -74,15 +67,16 @@ while running:
 
     # Create new rocks
     if rock_creation_time >= rock_creation_interval: # If it is greater or equal to- it is time to create a new rock
+        if random.random() < 0.3:  # 30 p ercent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+            # (Changing this changes the speed at which rocks appear on the screen)
+            top_rock = Rock(top_rock= True, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Upside down rock is created 
+            top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
         if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
             # (Changing this changes the speed at which rocks appear on the screen)
-            top_rock = Rock(top_rock= True, max_height = 260) # Upside down rock is created 
-            top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
-    if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
-            # (Changing this changes the speed at which rocks appear on the screen)
-            bottom_rock = Rock(top_rock= False, max_height = 260) # Bottom screen rocks are created
+            bottom_rock = Rock(top_rock= False, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Bottom screen rocks are created
             bottom_rocks.append(bottom_rock) # Added to the list, which keeps track of all rocks in the game
-    rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
+            
+        rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
 
     # Move rocks on and off the screen
     new_top_rocks = []
@@ -97,29 +91,20 @@ while running:
             new_bottom_rocks.append(rock)
     bottom_rocks = new_bottom_rocks
 
-
     # Move rocks on the screen
     for rock in top_rocks + bottom_rocks: 
         rock.move(2)
    
-    # Plane's vertical movement
-    if plane_moving_up:  # Only move up if the spacebar is pressed
-        plane_y -= plane_speed # TRUE Space bar was pressed so the plane moves up 
-    else:
-        plane_y += plane_speed  # FALSE Space bar was not pressed so the plane moves down 
-
-    # Bounds for plane
-    if plane_y < 0: # Does not go above the screen 
-        plane_y = 0 
-    elif plane_y + plane_height > HEIGHT: # Checking if bottom of the plane has left the bottom of the screen
-        plane_y = HEIGHT - plane_height # Sets the plan so it stops before the bottom of the screen
-
     # Draw top rocks
     for rock in top_rocks + bottom_rocks: 
-        rock.draw(screen)
+        rock.draw()
+    
+    
+    # Moving plane 
+    plane.move(plane_moving_up)
     
     # Draw the plane
-    screen.blit(plane, (plane_x, plane_y))  # Draw the plane at the current position
+    plane.draw()
 
     # Flip the display 
     pygame.display.flip()
