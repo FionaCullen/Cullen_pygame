@@ -40,6 +40,7 @@ def scroll_background(speed):
     if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
         background_x = 0  # This is the reset so that the screen looks like it never ends.
 
+# initializing plane movement and if has crashed or not 
 plane_moving_up = False 
 
 # keys
@@ -56,6 +57,15 @@ while running:
 
     # Scroll the background
     scroll_background(2) # Speed is 2
+
+    # Crash
+    r,g,b,_= screen.get_at(???) # Setting where the pixel colors are 
+
+    if r in range(230,240) and g in range(240,250) and b in range(245,255): 
+        pass
+    else: 
+        plane_alive = False # Since I am not using sprites I need to use this in order to have my plane crash and get removed
+
 
     # Fill the screen with background
     screen.blit(background, (background_x, 0))
@@ -102,7 +112,7 @@ while running:
     
     # Moving plane 
     plane.move(plane_moving_up)
-    
+
     # Draw the plane
     plane.draw()
 
