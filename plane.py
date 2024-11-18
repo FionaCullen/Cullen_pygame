@@ -13,6 +13,7 @@ class Plane:
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH
         self.screen = screen
+        self.plane = ? plane.rect(self.x, self.y)
 
     def move(self, move_up):
         self.moving_up = move_up 
@@ -30,6 +31,12 @@ class Plane:
     # Draws plane
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+
+    def crash(self):
+        r,g,b,_= self.screen.get_at(self.plane.rect.midright) # Setting where the pixel colors are 
+        if r in range(230,240) and g in range(240,250) and b in range(245,255): 
+            pass
+        
 
 
 

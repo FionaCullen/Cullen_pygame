@@ -11,6 +11,10 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
+#load background music
+bg_music = pygame.mixer.Sound('Cullen_pygame/Sax_jingles/jingles_SAX03.ogg')
+bg_music.play(-1) # loops = -1
+
 # Background setup
 background = pygame.Surface((WIDTH, HEIGHT))
 background_x = 0
@@ -42,6 +46,7 @@ def scroll_background(speed):
 
 # initializing plane movement and if has crashed or not 
 plane_moving_up = False 
+plane_alive = True
 
 # keys
 while running:
@@ -55,70 +60,71 @@ while running:
             if event.key == pygame.K_SPACE: # if yes, no upward movement 
                 plane_moving_up = False 
 
-    # Scroll the background
-    scroll_background(2) # Speed is 2
+    if plane_alive: 
+        # Scroll the background
+        scroll_background(2) # Speed is 2
 
-    # Crash
-    r,g,b,_= screen.get_at(???) # Setting where the pixel colors are 
+        # Fill the screen with background
+        screen.blit(background, (background_x, 0))
+        screen.blit(background, (background_x + WIDTH, 0))
 
-    if r in range(230,240) and g in range(240,250) and b in range(245,255): 
-        pass
-    else: 
-        plane_alive = False # Since I am not using sprites I need to use this in order to have my plane crash and get removed
+        # Update the timer for rock creation
+        rock_creation_time += clock.get_time() # rock_creation_time keeps track how much time has passed since the rock was created and clock keeps track of the time that two frames have been created
+            # (Controlling the time when new rocks appear)
 
-
-    # Fill the screen with background
-    screen.blit(background, (background_x, 0))
-    screen.blit(background, (background_x + WIDTH, 0))
-
-    # Update the timer for rock creation
-    rock_creation_time += clock.get_time() # rock_creation_time keeps track how much time has passed since the rock was created and clock keeps track of the time that two frames have been created
-        # (Controlling the time when new rocks appear)
-
-    # Create new rocks
-    if rock_creation_time >= rock_creation_interval: # If it is greater or equal to- it is time to create a new rock
-        if random.random() < 0.3:  # 30 p ercent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
-            # (Changing this changes the speed at which rocks appear on the screen)
-            top_rock = Rock(top_rock= True, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Upside down rock is created 
-            top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
-        if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
-            # (Changing this changes the speed at which rocks appear on the screen)
-            bottom_rock = Rock(top_rock= False, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Bottom screen rocks are created
-            bottom_rocks.append(bottom_rock) # Added to the list, which keeps track of all rocks in the game
+        # Create new rocks
+        if rock_creation_time >= rock_creation_interval: # If it is greater or equal to- it is time to create a new rock
+            if random.random() < 0.3:  # 30 p ercent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+                # (Changing this changes the speed at which rocks appear on the screen)
+                top_rock = Rock(top_rock= True, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Upside down rock is created 
+                top_rocks.append(top_rock) # Added to the list, which keeps track of all rocks in the game
+            if random.random() < 0.3:  # 30 percent chance a rock will be created. Generates a random number, and if it below 0.3 it will create a rock.
+                # (Changing this changes the speed at which rocks appear on the screen)
+                bottom_rock = Rock(top_rock= False, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT) # Bottom screen rocks are created
+                bottom_rocks.append(bottom_rock) # Added to the list, which keeps track of all rocks in the game
             
-        rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
+            rock_creation_time = 0  # After creating a rock it resets to the timer to zero so it can create more rocks
 
-    # Move rocks on and off the screen
-    new_top_rocks = []
-    for rock in top_rocks: 
-        if not rock.offscreen(): 
-            new_top_rocks.append(rock)
-    top_rocks = new_top_rocks
+        # Move rocks on and off the screen
+        new_top_rocks = []
+        for rock in top_rocks: 
+            if not rock.offscreen(): 
+                new_top_rocks.append(rock)
+        top_rocks = new_top_rocks
 
-    new_bottom_rocks = []
-    for rock in bottom_rocks: 
-        if not rock.offscreen():
-            new_bottom_rocks.append(rock)
-    bottom_rocks = new_bottom_rocks
+        new_bottom_rocks = []
+        for rock in bottom_rocks: 
+            if not rock.offscreen():
+                new_bottom_rocks.append(rock)
+        bottom_rocks = new_bottom_rocks
 
-    # Move rocks on the screen
-    for rock in top_rocks + bottom_rocks: 
-        rock.move(2)
+        # Move rocks on the screen
+        for rock in top_rocks + bottom_rocks: 
+            rock.move(2)
    
-    # Draw top rocks
-    for rock in top_rocks + bottom_rocks: 
-        rock.draw()
+        # Draw top rocks
+        for rock in top_rocks + bottom_rocks: 
+            rock.draw()
     
     
-    # Moving plane 
-    plane.move(plane_moving_up)
+        # Moving plane 
+        plane.move(plane_moving_up)
 
-    # Draw the plane
-    plane.draw()
+        # Draw the plane
+        plane.draw()
 
-    # Flip the display 
-    pygame.display.flip()
+        # Check for crash 
+        if plane.crash():
+            plane_alive = False
+            game_running = False
 
+        # Flip the display 
+        pygame.display.flip()
+
+    if not plane_alive: 
+        # Ending Screen with 'Game Over'
+        ? 
+        
     clock.tick(60)  
 
 pygame.quit()
