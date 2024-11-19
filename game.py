@@ -48,6 +48,13 @@ def scroll_background(speed):
 plane_moving_up = False 
 plane_alive = True
 
+
+# Score
+#score = 3
+#score_font = pygame.font.Font('Cullen_pygame/Fonts/Kenny_Future.ttf', size=55)
+#score_text = 
+
+
 # keys
 while running:
     for event in pygame.event.get():
@@ -114,16 +121,20 @@ while running:
         plane.draw()
 
         # Check for crash 
-        if plane.crash():
+        if plane.has_crashed():
+            print('DEAD')
             plane_alive = False
             game_running = False
+            
+
+
 
         # Flip the display 
         pygame.display.flip()
 
-    if not plane_alive: 
+    #if not plane_alive: 
         # Ending Screen with 'Game Over'
-        ? 
+        
         
     clock.tick(60)  
 
