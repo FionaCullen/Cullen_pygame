@@ -36,7 +36,7 @@ class Plane:
 
     def has_crashed(self):
         position = self.rect.midright
-        r,g,b,_= self.screen.get_at(position[0] + 1, position[1]) # Setting where the pixel colors are 
+        r,g,b,_= self.screen.get_at((position[0] + 1, position[1])) # Setting where the pixel colors are 
         
         print(r,g,b)
         if r in range(230,240) and g in range(240,250) and b in range(245,255): 
