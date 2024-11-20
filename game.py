@@ -62,17 +62,15 @@ def display_instructions():
     # Instructions
     instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', 'Good Luck!', "Press 'Enter' to continue"]
 
-    for k, v in  enumerate(instructions):  # Error gave me 'Cannot unpack non-iterable int'
-        text = font.render(v, True, (173,216,230)) # Light blue text
-        screen.blit(text, (50, 50 + k * 60 )) # Centers text, and makes line spacing 60 pixels between lines
-
-    pygame.display.flip() 
+    for n, sentence in  enumerate(instructions):  # Error gave me 'Cannot unpack non-iterable int'
+        text = font.render(sentence, True, (173,216,230)) # Light blue text
+        screen.blit(text, (50, 50 + n * 60 )) # Centers text, and makes line spacing 60 pixels between lines
 
 # Calling Display Instructions
-display_instructions()
+#display_instructions()
 
 # Keys for Next Screen 
-click_enter = True 
+click_enter = 0 
 while click_enter: 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
@@ -154,19 +152,29 @@ while running:
         # Draw the plane
         plane.draw()
 
-        # Check for crash 
-        if plane.has_crashed(screen):
-            print('DEAD')
-            plane_alive = False
-            game_running = False
-            
+    # Check for crash 
+    if plane.has_crashed(screen):
+        print("plane has crashed")
+        # Game freezes 
+        plane_alive = False 
+        # Lives go down 
+        lives[0] -= 1
+        # Plane resets to middle 
+        plane.y = HEIGHT // 2
+        plane.draw()
+        # Sleep 
 
-        # Flip the display 
-        pygame.display.flip()
-
-    #if not plane_alive: 
-        # Ending Screen with 'Game Over'
+        # Plane is alive 
         
+
+    # Flip the display 
+    pygame.display.flip()
+
+    # if not plane_alive and lives == 0:
+    #     screen.fill((0,0,0))
+    #     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
+        
+    #     ending = ['GAME OVER', "Press 'Enter' to Exit the game!"]
         
     clock.tick(60)  
 
