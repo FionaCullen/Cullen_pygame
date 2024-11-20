@@ -50,12 +50,40 @@ plane_alive = True
 
 
 # Score
-#score = 3
-#score_font = pygame.font.Font('Cullen_pygame/Fonts/Kenny_Future.ttf', size=55)
-#score_text = 
+lives = [3]
+lives_font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', size=45)
 
 
-# keys
+# Welcome Screen 
+def display_instructions():
+    screen.fill((0,0,0)) # Creates a black screen
+    font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
+
+    # Instructions
+    instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', 'Good Luck!', "Press 'Enter' to continue"]
+
+    for k, v in  enumerate(instructions):  # Error gave me 'Cannot unpack non-iterable int'
+        text = font.render(v, True, (173,216,230)) # Light blue text
+        screen.blit(text, (50, 50 + k * 60 )) # Centers text, and makes line spacing 60 pixels between lines
+
+    pygame.display.flip() 
+
+# Calling Display Instructions
+display_instructions()
+
+# Keys for Next Screen 
+click_enter = True 
+while click_enter: 
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT: 
+            running = False 
+            pass
+        elif event.type == pygame.KEYDOWN: 
+            if event.key == pygame.K_RETURN:
+                click_enter = False 
+
+
+# Main Game
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
@@ -113,6 +141,14 @@ while running:
         for rock in top_rocks + bottom_rocks: 
             rock.draw()
     
+        # Draw Text 
+        lives_text = f"Lives: {lives[0]}"
+        lives_surface = lives_font.render(lives_text, True, (127,0,255))
+        lives_rect = lives_surface.get_rect()
+        lives_rect.topleft = (0,0)
+        screen.blit(lives_surface, lives_rect)
+        #Update Screen with text
+        pygame.display.flip()
     
         # Moving plane 
         plane.move(plane_moving_up)
@@ -126,8 +162,6 @@ while running:
             plane_alive = False
             game_running = False
             
-
-
 
         # Flip the display 
         pygame.display.flip()
