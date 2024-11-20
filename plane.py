@@ -41,7 +41,6 @@ class Plane:
             return False 
         position = self.rect.midright
         r,g,b,_= screen.get_at((position[0] + 20, position[1])) # Setting where the pixel colors are 
-        print(r,g,b)
         if r in range(200,240) and g in range(225,250) and b in range(245,255): 
            return False
         return True
