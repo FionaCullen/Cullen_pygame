@@ -65,12 +65,13 @@ def display_instructions():
     for n, sentence in  enumerate(instructions):  # Error gave me 'Cannot unpack non-iterable int'
         text = font.render(sentence, True, (173,216,230)) # Light blue text
         screen.blit(text, (50, 50 + n * 60 )) # Centers text, and makes line spacing 60 pixels between lines
+        pygame.display.flip() 
 
 # Calling Display Instructions
-#display_instructions()
+display_instructions()
 
 # Keys for Next Screen 
-click_enter = 0 
+click_enter = True
 while click_enter: 
     for event in pygame.event.get():
         if event.type == pygame.QUIT: 
@@ -162,10 +163,10 @@ while running:
         # Plane resets to middle 
         plane.y = HEIGHT // 2
         plane.draw()
-        # Sleep 
-
+        # Wait 
+        pygame.time.wait(3000)
         # Plane is alive 
-        
+        plane_alive = True 
 
     # Flip the display 
     pygame.display.flip()

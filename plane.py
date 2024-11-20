@@ -37,7 +37,7 @@ class Plane:
 
     def has_crashed(self,screen):
         delta_time = pygame.time.get_ticks() - self.birthtime
-        if delta_time < 5000: 
+        if delta_time < 3000: 
             return False 
         position = self.rect.midright
         r,g,b,_= screen.get_at((position[0] + 20, position[1])) # Setting where the pixel colors are 
