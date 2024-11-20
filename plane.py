@@ -28,20 +28,19 @@ class Plane:
         elif self.y + self.plane_height > self.HEIGHT:  # Checks to see if bottom of plane has left bottom of screen
             self.y = self.HEIGHT - self.plane_height    # Sets the y position, so it stops before leaving the screen
 
-        self.rect = self.image.get_rect(center = (self.x, self.y))
+        self.rect.center = (self.x,self.y)
 
     # Draws plane
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
-    def has_crashed(self):
+    def has_crashed(self,screen):
         position = self.rect.midright
-        r,g,b,_= self.screen.get_at((position[0] + 1, position[1])) # Setting where the pixel colors are 
+        r,g,b,_= screen.get_at((position[0] + 20, position[1])) # Setting where the pixel colors are 
         
-        print(r,g,b)
-        if r in range(230,240) and g in range(240,250) and b in range(245,255): 
-           return True 
-        return False
+        if r in range(200,240) and g in range(225,250) and b in range(245,255): 
+           return False
+        return True
 
 
 

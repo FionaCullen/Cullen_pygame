@@ -142,13 +142,11 @@ while running:
             rock.draw()
     
         # Draw Text 
-        lives_text = f"Lives: {lives[0]}"
-        lives_surface = lives_font.render(lives_text, True, (127,0,255))
-        lives_rect = lives_surface.get_rect()
+        lives_text = f"Lives: {lives[0]}"  # What prints on screen
+        lives_surface = lives_font.render(lives_text, True, (127,0,255)) # Font, and Color (purple)
+        lives_rect = lives_surface.get_rect() 
         lives_rect.topleft = (0,0)
         screen.blit(lives_surface, lives_rect)
-        #Update Screen with text
-        pygame.display.flip()
     
         # Moving plane 
         plane.move(plane_moving_up)
@@ -157,7 +155,7 @@ while running:
         plane.draw()
 
         # Check for crash 
-        if plane.has_crashed():
+        if plane.has_crashed(screen):
             print('DEAD')
             plane_alive = False
             game_running = False
