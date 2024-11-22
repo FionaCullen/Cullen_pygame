@@ -2,6 +2,7 @@ import pygame
 import random
 from rock import Rock
 from plane import Plane
+from datetime import datetime
 
 # Pygame setup
 pygame.init()
@@ -48,6 +49,13 @@ def scroll_background(speed):
 plane_moving_up = False 
 plane_alive = True
 
+# Screenshot 
+def take_screenshot(screen):
+    print('TAKING SCREENSHOT')
+    fn = datetime.now().strftime('%d_%m_%y_%H%M%S.png')
+    # take a screenshot 
+    pygame.image.save(screen, f'screenshots/{fn}')
+
 
 # Score
 lives = [3]
@@ -58,13 +66,16 @@ lives_font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', size=45)
 def display_instructions():
     screen.fill((0,0,0)) # Creates a black screen
     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
+    spacing = 60
 
     # Instructions
-    instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', 'Good Luck!', "Press 'Enter' to continue"]
+    instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', '', "Press 'Enter' to continue"]
 
-    for n, sentence in  enumerate(instructions):  # Error gave me 'Cannot unpack non-iterable int'
-        text = font.render(sentence, True, (173,216,230)) # Light blue text
-        screen.blit(text, (50, 50 + n * 60 )) # Centers text, and makes line spacing 60 pixels between lines
+    for i, instruction in enumerate(instructions): # Error gave me 'Cannot unpack non-iterable int'
+        text = font.render(instruction, True, (173,216,230)) # Light blue text
+        font_rect = text.get_rect()
+        font_rect.center = (WIDTH // 2, spacing + i * spacing)
+        screen.blit(text, font_rect)
         pygame.display.flip() 
 
 # Calling Display Instructions
@@ -92,7 +103,10 @@ while running:
                 plane_moving_up = True  
         elif event.type == pygame.KEYUP: # checks if key is released 
             if event.key == pygame.K_SPACE: # if yes, no upward movement 
-                plane_moving_up = False 
+                plane_moving_up = False
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
+                take_screenshot(screen) 
 
     if plane_alive: 
         # Scroll the background

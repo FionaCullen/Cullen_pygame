@@ -1,5 +1,17 @@
-# Cullen_pygame
+# Flappy Plane
  
-## This is a project for my EW200 class
+## Screenshots
 
-### Flappy Bird
+## Installation
+1. Install pygame 'pip3 install pygame'
+2. Run the 'game.py', 'python3 game.py'
+
+## Game Play Instructions
+1. Use the 'Spacebar' to move plane up and down 
+2. Press 'p' to take a screenshot
+
+## To Do List 
+- [X] Make a Lives counter
+- [X] Display instruction screen
+- [ ] Update plane and screen after crash
+
