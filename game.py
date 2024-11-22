@@ -54,7 +54,7 @@ def take_screenshot(screen):
     print('TAKING SCREENSHOT')
     fn = datetime.now().strftime('%d_%m_%y_%H%M%S.png')
     # take a screenshot 
-    pygame.image.save(screen, f'screenshots/{fn}')
+    pygame.image.save(screen, f'Cullen_pygame/screenshots/{fn}')
 
 
 # Score
@@ -92,6 +92,22 @@ while click_enter:
             if event.key == pygame.K_RETURN:
                 click_enter = False 
 
+# Game Over Screen 
+def display_game_over(): 
+    screen.fill((0,0,0))
+    font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
+    spacing = 60 
+
+    gameover_text = ['GAME OVER', '', "Press 'Enter' to restart"]
+    
+    for t, gameover in enumerate(gameover_text):
+        text = font.render(gameover, True, (255,255,255))
+        font_rect = text.get_rect()
+        font_rect.center = (WIDTH // 2, spacing + t * spacing)
+        screen.blit(text, font_rect)
+        pygame.display.flip()
+
+    
 
 # Main Game
 while running:
