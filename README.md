@@ -1,7 +1,8 @@
 # Flappy Plane
  
 ## Screenshots
-![screenshot](screenshots/24_11_24_123134.png)
+![screenshots](screenshots/24_11_24_123134.png)
+![screenshots](screenshots/24_11_24_123955.png)
 
 ## Installation
 1. Install pygame 'pip3 install pygame'
@@ -14,5 +15,5 @@
 ## To Do List 
 - [X] Make a Lives counter
 - [X] Display instruction screen
-- [ ] Update plane and screen after crash
+- [X] Update plane and screen after crash
 
