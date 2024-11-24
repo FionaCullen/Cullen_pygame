@@ -1,6 +1,7 @@
 # Flappy Plane
  
 ## Screenshots
+![screenshot](screenshots/24_11_24_123134.png)
 
 ## Installation
 1. Install pygame 'pip3 install pygame'

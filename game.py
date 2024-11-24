@@ -94,13 +94,14 @@ while click_enter:
 
 # Game Over Screen 
 def display_game_over(): 
+    bg_music.stop() # Stops background music
     screen.fill((0,0,0))
     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
     spacing = 60 
 
     gameover_text = ['GAME OVER', '', "Press 'Enter' to restart"]
     
-    for t, gameover in enumerate(gameover_text):
+    for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int'
         text = font.render(gameover, True, (255,255,255))
         font_rect = text.get_rect()
         font_rect.center = (WIDTH // 2, spacing + t * spacing)
@@ -116,13 +117,13 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN: # checks if key is pressed 
             if event.key == pygame.K_SPACE: # if yes, upward movement 
-                plane_moving_up = True  
+                plane_moving_up = True 
+            elif event.key == pygame.K_p: 
+                take_screenshot(screen) 
         elif event.type == pygame.KEYUP: # checks if key is released 
             if event.key == pygame.K_SPACE: # if yes, no upward movement 
                 plane_moving_up = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_p:
-                take_screenshot(screen) 
+    
 
     if plane_alive: 
         # Scroll the background
@@ -194,18 +195,37 @@ while running:
         # Plane rests in the middle of the screen
         plane.y = HEIGHT // 2
         plane.draw()
+        # Reset background so that the rocks are cleared out 
+        top_rocks.clear()
+        bottom_rocks.clear()
         # Plane is alive 
         plane_alive = True 
 
-    # Flip the display 
-    pygame.display.flip()
+    # Display's Game Over Screen when lives is zero
+    if lives[0] == 0:
+        display_game_over()
+        
+        wait_for_restart = True
+        while wait_for_restart: 
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    wait_for_restart = False 
+                elif event.type == pygame.KEYDOWN: 
+                    if event.type == pygame.K_RETURN: # Restarts game
+                        wait_for_restart = False 
+                        lives = [3] # Restarts lives 
+                        plane_alive = True # Resets plane_alive 
+                        plane.y = HEIGHT // 2 # Resets planes position 
+                        top_rocks.clear() # Clears top rocks from screen
+                        bottom_rocks.clear() # Clears bottom rocks from screen
+                        bg_music.play(-1) # Starts background music 
+                    elif event.type == pygame.K_ESCAPE: # Exits game 
+                        running = False 
+                        wait_for_restart = False 
 
-    # if not plane_alive and lives == 0:
-    #     screen.fill((0,0,0))
-    #     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
-        
-    #     ending = ['GAME OVER', "Press 'Enter' to Exit the game!"]
-        
+    # Flip the display 
+    pygame.display.flip()    
     clock.tick(60)  
 
 pygame.quit()

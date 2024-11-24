@@ -36,7 +36,7 @@ class Plane:
         self.screen.blit(self.image, (self.x, self.y))
 
     def has_crashed(self,screen):
-        delta_time = pygame.time.get_ticks() - self.birthtime
+        delta_time = pygame.time.get_ticks() 
         if delta_time < 3000: 
             return False 
         position = self.rect.midright

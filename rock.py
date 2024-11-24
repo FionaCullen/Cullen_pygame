@@ -9,7 +9,7 @@ class Rock:
         self.HEIGHT = HEIGHT 
         self.screen = screen
 
-        self.rock_height = random.randint(100, 260)
+        self.rock_height = random.randint(100, 237)
         self.rock_width = random.randint(50,150)
         self.rock_x = WIDTH + random.randint(0,200)
      
