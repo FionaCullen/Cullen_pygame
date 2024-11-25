@@ -18,13 +18,12 @@ def display_instructions(screen, WIDTH):
         pygame.display.flip() 
 
 # Game Over Screen 
-def display_game_over(bg_music, screen, WIDTH): 
-    bg_music.stop() # Stops background music
+def display_game_over(screen, WIDTH): 
     screen.fill((0,0,0))
     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
     spacing = 60 
 
-    gameover_text = ['GAME OVER','', 'Thank You For Playing', '', "Press 'Enter' to restart"]
+    gameover_text = ['GAME OVER','', 'Thank You For Playing', '', "Press 'Enter' to restart",'', "Press 'Escape' to exit the game"]
     
     for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int'
         text = font.render(gameover, True, (255,255,255))

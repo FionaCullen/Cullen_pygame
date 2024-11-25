@@ -24,14 +24,14 @@ class Rock:
         else:              # If not top rock, print bottom rock image
             self.image = pygame.image.load('Cullen_pygame/PNG/rockGrass.png')
 
-        
+    # Move 
     def move(self, speed):  # Moves left on the screen, at the same speed as the screen
         self.rock_x -= speed 
 
+    # Check to see if they are on or off the screen
     def offscreen(self): # Checks to see if the right most edge of the image has left the screen 
         return self.rock_x + self.rock_width < 0
 
-    
-    
+    # Draw the rocks onto the screen
     def draw(self): # Draw the rock at its location
         self.screen.blit(self.image, (self.rock_x, self.rock_y))

@@ -35,10 +35,11 @@ grass_y = HEIGHT - grass.get_height()
 background.blit(grass, (0, grass_y))
 
 rock_creation_time = 0 # Keeping track of how much time has passed since the last rock was created (This is to ensure that no rocks get created over top one another)
-rock_creation_interval = 650  # Interval for rock creation (A rock will be created every 0.65 seconds)
+rock_creation_interval = 500  # Interval for rock creation (A rock will be created every 0.5 seconds)
 top_rocks = []     # Upside-down rocks at the top (Initalizing)
 bottom_rocks = []  # Regular rocks at the bottom (Initalizing)
 
+# Scroll Background
 def scroll_background(speed): 
     global background_x
     background_x -= speed # Background moves left, making it look like the plane is moving forward
@@ -75,7 +76,7 @@ while running:
         elif event.type == pygame.KEYDOWN: # checks if key is pressed 
             if event.key == pygame.K_SPACE: # if yes, upward movement 
                 plane_moving_up = True 
-            elif event.key == pygame.K_p: 
+            elif event.key == pygame.K_p: # If p is pressed, take a screenshot
                 take_screenshot(screen) 
         elif event.type == pygame.KEYUP: # checks if key is released 
             if event.key == pygame.K_SPACE: # if yes, no upward movement 
@@ -160,7 +161,7 @@ while running:
 
     # Display's Game Over Screen when lives is zero
     if lives[0] == 0:
-        display_game_over(bg_music, screen, WIDTH)
+        display_game_over(screen, WIDTH)
         
         wait_for_restart = True
         while wait_for_restart: 

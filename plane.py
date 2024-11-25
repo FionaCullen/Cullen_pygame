@@ -35,6 +35,7 @@ class Plane:
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
 
+    # Crash
     def has_crashed(self,screen):
         delta_time = pygame.time.get_ticks() 
         if delta_time < 3000: 
