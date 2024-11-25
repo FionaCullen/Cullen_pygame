@@ -2,7 +2,7 @@ import pygame
 import random
 from rock import Rock
 from plane import Plane
-from datetime import datetime
+from helpers import display_instructions, display_game_over, take_screenshot
 
 # Pygame setup
 pygame.init()
@@ -49,39 +49,14 @@ def scroll_background(speed):
 plane_moving_up = False 
 plane_alive = True
 
-# Screenshot 
-def take_screenshot(screen):
-    print('TAKING SCREENSHOT')
-    fn = datetime.now().strftime('%d_%m_%y_%H%M%S.png')
-    # take a screenshot 
-    pygame.image.save(screen, f'Cullen_pygame/screenshots/{fn}')
-
-
 # Score
 lives = [3]
 lives_font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', size=45)
 
+# Calling Welcome Screen 
+display_instructions(screen, WIDTH)
 
-# Welcome Screen 
-def display_instructions():
-    screen.fill((0,0,0)) # Creates a black screen
-    font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
-    spacing = 60
-
-    # Instructions
-    instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', '', "Press 'Enter' to continue"]
-
-    for i, instruction in enumerate(instructions): # Error gave me 'Cannot unpack non-iterable int'
-        text = font.render(instruction, True, (173,216,230)) # Light blue text
-        font_rect = text.get_rect()
-        font_rect.center = (WIDTH // 2, spacing + i * spacing)
-        screen.blit(text, font_rect)
-        pygame.display.flip() 
-
-# Calling Display Instructions
-display_instructions()
-
-# Keys for Next Screen 
+# Keys for Next Screen (WELCOME SCREEN)
 click_enter = True
 while click_enter: 
     for event in pygame.event.get():
@@ -91,24 +66,6 @@ while click_enter:
         elif event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_RETURN:
                 click_enter = False 
-
-# Game Over Screen 
-def display_game_over(): 
-    bg_music.stop() # Stops background music
-    screen.fill((0,0,0))
-    font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
-    spacing = 60 
-
-    gameover_text = ['GAME OVER', '', "Press 'Enter' to restart"]
-    
-    for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int'
-        text = font.render(gameover, True, (255,255,255))
-        font_rect = text.get_rect()
-        font_rect.center = (WIDTH // 2, spacing + t * spacing)
-        screen.blit(text, font_rect)
-        pygame.display.flip()
-
-    
 
 # Main Game
 while running:
@@ -203,7 +160,7 @@ while running:
 
     # Display's Game Over Screen when lives is zero
     if lives[0] == 0:
-        display_game_over()
+        display_game_over(bg_music, screen, WIDTH)
         
         wait_for_restart = True
         while wait_for_restart: 
@@ -212,7 +169,7 @@ while running:
                     running = False
                     wait_for_restart = False 
                 elif event.type == pygame.KEYDOWN: 
-                    if event.type == pygame.K_RETURN: # Restarts game
+                    if event.key == pygame.K_RETURN: # Restarts game
                         wait_for_restart = False 
                         lives = [3] # Restarts lives 
                         plane_alive = True # Resets plane_alive 
@@ -220,7 +177,7 @@ while running:
                         top_rocks.clear() # Clears top rocks from screen
                         bottom_rocks.clear() # Clears bottom rocks from screen
                         bg_music.play(-1) # Starts background music 
-                    elif event.type == pygame.K_ESCAPE: # Exits game 
+                    elif event.key == pygame.K_ESCAPE: # Exits game 
                         running = False 
                         wait_for_restart = False 
 
@@ -229,4 +186,3 @@ while running:
     clock.tick(60)  
 
 pygame.quit()
-
