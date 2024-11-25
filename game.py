@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 running = True
 
 #load background music
-bg_music = pygame.mixer.Sound('Cullen_pygame/Sax_jingles/jingles_SAX03.ogg')
+bg_music = pygame.mixer.Sound('Cullen_pygame\mp3\Be_Children.mp3')
 bg_music.play(-1) # loops = -1
 
 # Background setup

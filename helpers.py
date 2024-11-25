@@ -24,7 +24,7 @@ def display_game_over(bg_music, screen, WIDTH):
     font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', 55)
     spacing = 60 
 
-    gameover_text = ['GAME OVER', '', "Press 'Enter' to restart"]
+    gameover_text = ['GAME OVER','', 'Thank You For Playing', '', "Press 'Enter' to restart"]
     
     for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int'
         text = font.render(gameover, True, (255,255,255))
