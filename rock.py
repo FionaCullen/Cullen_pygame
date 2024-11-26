@@ -15,7 +15,7 @@ class Rock:
      
 
         if self.top_rock:  # If top rock the y position is zero (top of screen)
-            self.rock_y = 0 - (260 - self.rock_height)
+            self.rock_y = 0 - (260 - self.rock_height)  # Makes bottom flush with the top of the screen
         else:              # If not top rock, it has to be bettom rock- y position at bottom of screen
             self.rock_y = self.HEIGHT - self.rock_height
 
