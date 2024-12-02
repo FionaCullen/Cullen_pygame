@@ -12,7 +12,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 clock = pygame.time.Clock()
 running = True
 
-#load background music
+# load background music
 bg_music = pygame.mixer.Sound('Cullen_pygame\mp3\Be_Children.mp3')
 bg_music.play(-1) # loops = -1
 
@@ -34,24 +34,25 @@ background.blit(sky, (0, 0))
 grass_y = HEIGHT - grass.get_height()
 background.blit(grass, (0, grass_y))
 
-rock_creation_time = 0  
+# Initialize rock elements
+rock_creation_time = 0        
 rock_creation_interval = 500  # Interval for rock creation (A rock will be created every 0.5 seconds)
-top_rocks = []     # Upside-down rocks at the top (Initalizing)
-bottom_rocks = []  # Regular rocks at the bottom (Initalizing)
+top_rocks = []     # Initializing Upside-down rocks at the top
+bottom_rocks = []  # Initializing Regular rocks at the bottom 
 
 # Scroll Background
 def scroll_background(speed): 
     global background_x
-    background_x -= speed # Background moves left
-    if background_x <= -WIDTH: # If the background has moved completely off the screen, reset it
-        background_x = 0  # This is the reset so that the screen looks like it never ends.
+    background_x -= speed         # Background moves left
+    if background_x <= -WIDTH:    # If the background has moved completely off the screen, reset it
+        background_x = 0          # This is the reset so that the screen looks like it never ends.
 
 # initializing plane movement and if has crashed or not 
 plane_moving_up = False 
 plane_alive = True
 
 # Score
-lives = [3]
+lives = [3] 
 lives_font = pygame.font.Font('Cullen_pygame/Fonts/Kenney_Pixel.ttf', size=45)
 
 # Calling Welcome Screen 
@@ -61,11 +62,11 @@ display_instructions(screen, WIDTH)
 click_enter = True
 while click_enter: 
     for event in pygame.event.get():
-        if event.type == pygame.QUIT: 
+        if event.type == pygame.QUIT:  
             running = False 
             pass
         elif event.type == pygame.KEYDOWN: 
-            if event.key == pygame.K_RETURN:
+            if event.key == pygame.K_RETURN: # If 'enter' is pressed, move to the next screen
                 click_enter = False 
 
 # Main Game
@@ -82,8 +83,9 @@ while running:
             if event.key == pygame.K_SPACE: # if yes, no upward movement 
                 plane_moving_up = False
     
-
+    # If plane is alive, do all these things...
     if plane_alive: 
+
         # Scroll the background
         scroll_background(2) # Speed is 2
 
@@ -94,13 +96,12 @@ while running:
         # Update the timer for rock creation
         rock_creation_time += clock.get_time() # Running timer for the game, beginning at zero
            
-
         # Create new rocks
-        if rock_creation_time >= rock_creation_interval: # If it is greater or equal to- it is time to create a new rock
+        if rock_creation_time >= rock_creation_interval: # If the running timer is greater than 500, create a new rock on the screen
             if random.random() < 0.3:  # 30 percent chance a rock will be created (random.random generates a number between 0 and 1) 
                 top_rock = Rock(top_rock= True, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT)
                 top_rocks.append(top_rock) # Added to the list
-            if random.random() < 0.3:  # 30 percent chance a rock will be created
+            if random.random() < 0.3:  # 30 percent chance a rock will be created (This is necessary so that there are not rocks being created every 0.5 sec)
                 bottom_rock = Rock(top_rock= False, screen = screen, WIDTH = WIDTH, HEIGHT = HEIGHT)
                 bottom_rocks.append(bottom_rock) # Added to the list
             
@@ -124,10 +125,10 @@ while running:
             rock.draw()
     
         # Draw Lives Text 
-        lives_text = f"Lives: {lives[0]}"  # What prints on screen
+        lives_text = f"Lives: {lives[0]}"  
         lives_surface = lives_font.render(lives_text, True, (127,0,255)) # Font, and Color (purple)
-        lives_rect = lives_surface.get_rect() 
-        lives_rect.topleft = (20,0)
+        lives_rect = lives_surface.get_rect()                            # Gets the position
+        lives_rect.topleft = (20,0)                                      # Puts it in the top left corner
         screen.blit(lives_surface, lives_rect)
     
         # Moving plane 
@@ -164,14 +165,14 @@ while running:
                     running = False
                     wait_for_restart = False 
                 elif event.type == pygame.KEYDOWN: 
-                    if event.key == pygame.K_RETURN: # Restarts game
+                    if event.key == pygame.K_RETURN: # If 'enter' is pressed, restart game
                         wait_for_restart = False 
-                        lives = [3] # Restarts lives 
+                        lives = [3] # Resets lives 
                         plane_alive = True # Resets plane_alive 
                         plane.y = HEIGHT // 2 # Resets planes position 
                         top_rocks.clear() # Clears top rocks from screen
                         bottom_rocks.clear() # Clears bottom rocks from screen
-                    elif event.key == pygame.K_ESCAPE: # Exits game 
+                    elif event.key == pygame.K_ESCAPE: # if 'esc' is pressed, exits game 
                         running = False 
                         wait_for_restart = False 
 
