@@ -6,9 +6,10 @@ class Plane:
         self.y = HEIGHT // 2
         self.speed = 3
         self.moving_up = False
-        self.plane_height = 36
+        self.plane_height = 36 
         self.image = pygame.image.load('Cullen_pygame/PNG/Planes/planeRed2.png')
         self.image = pygame.transform.scale(self.image, (self.image.get_width() // 2, self.image.get_height() // 2)) # scaled image to 50 Percent
+        
         # Had to initialize these because they were showing as not defined
         self.HEIGHT = HEIGHT
         self.WIDTH = WIDTH
@@ -29,7 +30,7 @@ class Plane:
         elif self.y + self.plane_height > self.HEIGHT:  # Checks to see if bottom of plane has left bottom of screen
             self.y = self.HEIGHT - self.plane_height    # Sets the y position, so it stops before leaving the screen
 
-        self.rect.center = (self.x,self.y)
+        self.rect.center = (self.x,self.y) # Center position of the plane
 
     # Draws plane
     def draw(self):
@@ -38,10 +39,10 @@ class Plane:
     # Crash
     def has_crashed(self,screen):
         delta_time = pygame.time.get_ticks() 
-        if delta_time < 3000: 
+        if delta_time < 3000:    # Buffer time, plane can not crash within the first 3 sec of the game
             return False 
         position = self.rect.midright
-        r,g,b,_= screen.get_at((position[0] + 20, position[1])) # Setting where the pixel colors are 
+        r,g,b,_= screen.get_at((position[0] + 20, position[1])) # Setting where the pixel colors are (x is 20 pixels in front of the nose)
         if r in range(200,240) and g in range(225,250) and b in range(245,255): 
            return False
         return True
