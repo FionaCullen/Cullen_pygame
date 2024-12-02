@@ -10,7 +10,7 @@ def display_instructions(screen, WIDTH):
     # Instructions
     instructions = ['Welcome to Flappy Plane', 'Instructions:', 'Press SPACE to move up and down', '', "Press 'Enter' to continue"]
 
-    for i, instruction in enumerate(instructions): # Error gave me 'Cannot unpack non-iterable int'
+    for i, instruction in enumerate(instructions): # Error gave me 'Cannot unpack non-iterable int', so used enumerate to turn into a value
         text = font.render(instruction, True, (173,216,230)) # Light blue text
         font_rect = text.get_rect()
         font_rect.center = (WIDTH // 2, spacing + i * spacing)
@@ -25,8 +25,8 @@ def display_game_over(screen, WIDTH):
 
     gameover_text = ['GAME OVER','', 'Thank You For Playing', '', "Press 'Enter' to restart",'', "Press 'Escape' to exit the game"]
     
-    for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int'
-        text = font.render(gameover, True, (255,255,255))
+    for t, gameover in enumerate(gameover_text): # Error gave me 'Cannot unpack non-interable int', so used enumerate to turn into a value
+        text = font.render(gameover, True, (255,255,255)) # White text
         font_rect = text.get_rect()
         font_rect.center = (WIDTH // 2, spacing + t * spacing)
         screen.blit(text, font_rect)
