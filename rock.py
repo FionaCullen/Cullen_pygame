@@ -11,27 +11,27 @@ class Rock:
 
         self.rock_height = random.randint(100, 237)
         self.rock_width = random.randint(50,150)
-        self.rock_x = WIDTH + random.randint(0,200)
+        self.rock_x = WIDTH + random.randint(0,200) # Makes rocks appear to slide onto the screen
      
 
-        if self.top_rock:  # If top rock the y position is zero (top of screen)
-            self.rock_y = 0 - (260 - self.rock_height)  # Makes bottom flush with the top of the screen
-        else:              # If not top rock, it has to be bettom rock- y position at bottom of screen
-            self.rock_y = self.HEIGHT - self.rock_height
+        if self.top_rock: 
+            self.rock_y = 0 - (260 - self.rock_height)  # Makes bottom of the rock flush with the top of the screen
+        else:              
+            self.rock_y = self.HEIGHT - self.rock_height # If not top rock, it is bottom rock- y position at bottom of screen
 
-        if self.top_rock:  # If top rock print the upside rock image 
+        if self.top_rock:  
             self.image = pygame.image.load('Cullen_pygame/PNG/rockGrassDown.png')
-        else:              # If not top rock, print bottom rock image
+        else:             
             self.image = pygame.image.load('Cullen_pygame/PNG/rockGrass.png')
 
     # Move 
     def move(self, speed):  # Moves left on the screen, at the same speed as the screen
         self.rock_x -= speed 
 
-    # Check to see if they are on or off the screen
+    # Check to see if rocks are off screen
     def offscreen(self): # Checks to see if the right most edge of the image has left the screen 
-        return self.rock_x + self.rock_width < 0
+        return self.rock_x + self.rock_width < 0 # right most part of the rock is less than zero (left most edge of the screen) = offscreen
 
     # Draw the rocks onto the screen
-    def draw(self): # Draw the rock at its location
+    def draw(self): 
         self.screen.blit(self.image, (self.rock_x, self.rock_y))
